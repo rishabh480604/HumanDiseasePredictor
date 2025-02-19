@@ -1,15 +1,35 @@
 import { useState } from "react";
 import "../styles/AddPatient.css";
-
+import axios from "axios";
 const AddPatient: React.FC = () => {
   const [formData, setFormData] = useState({
     name: "",
     age: "",
     gender: "",
-    symptoms: ["", "", "", ""], 
-    testResults: "",
+    phoneNo:"",
+    symptoms: ["", "", "", "",""], 
+    // testResults: "",
   });
-
+  const symptomArray=['back_pain','constipation','abdominal_pain','diarrhoea','mild_fever','yellow_urine',
+  'yellowing_of_eyes','acute_liver_failure','fluid_overload','swelling_of_stomach',
+  'swelled_lymph_nodes','malaise','blurred_and_distorted_vision','phlegm','throat_irritation',
+  'redness_of_eyes','sinus_pressure','runny_nose','congestion','chest_pain','weakness_in_limbs',
+  'fast_heart_rate','pain_during_bowel_movements','pain_in_anal_region','bloody_stool',
+  'irritation_in_anus','neck_pain','dizziness','cramps','bruising','obesity','swollen_legs',
+  'swollen_blood_vessels','puffy_face_and_eyes','enlarged_thyroid','brittle_nails',
+  'swollen_extremeties','excessive_hunger','extra_marital_contacts','drying_and_tingling_lips',
+  'slurred_speech','knee_pain','hip_joint_pain','muscle_weakness','stiff_neck','swelling_joints',
+  'movement_stiffness','spinning_movements','loss_of_balance','unsteadiness',
+  'weakness_of_one_body_side','loss_of_smell','bladder_discomfort','foul_smell_of urine',
+  'continuous_feel_of_urine','passage_of_gases','internal_itching','toxic_look_(typhos)',
+  'depression','irritability','muscle_pain','altered_sensorium','red_spots_over_body','belly_pain',
+  'abnormal_menstruation','dischromic _patches','watering_from_eyes','increased_appetite','polyuria','family_history','mucoid_sputum',
+  'rusty_sputum','lack_of_concentration','visual_disturbances','receiving_blood_transfusion',
+  'receiving_unsterile_injections','coma','stomach_bleeding','distention_of_abdomen',
+  'history_of_alcohol_consumption','fluid_overload','blood_in_sputum','prominent_veins_on_calf',
+  'palpitations','painful_walking','pus_filled_pimples','blackheads','scurring','skin_peeling',
+  'silver_like_dusting','small_dents_in_nails','inflammatory_nails','blister','red_sore_around_nose',
+  'yellow_crust_ooze']
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, index?: number) => {
     if (index !== undefined) {
       // Update symptoms array based on index
@@ -21,14 +41,23 @@ const AddPatient: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form Data Submitted:", formData);
+    const response= await axios.post('http://127.0.0.1:5000/addPatient',{...formData});
+    
+    if(response.status==200){
+      console.log(response.data);
+      alert(`Patient Data with patient id : ${response.data.patientId}`);
+    }else{
+      alert("patient add error :"+response.data.message);
+    }
   };
 
   return (
     <div className="form-container">
       <h2>Add New Patient</h2>
+
       <form onSubmit={handleSubmit}>
         <label>Full Name</label>
         <input
@@ -56,19 +85,35 @@ const AddPatient: React.FC = () => {
           <input type="radio" name="gender" value="Female" onChange={handleChange} required /> Female
         </div>
 
+        <label>Phone No</label>
+        <input
+          type="text"
+          name="phoneNo"
+          placeholder="Phone No"
+          value={formData.phoneNo}
+          onChange={handleChange}
+          required
+        />
+
         <label>Symptoms</label>
         {formData.symptoms.map((symptom, index) => (
-          <input
+          <select
             key={index}
-            type="text"
             name={`symptom${index}`}
-            placeholder={`Describe symptom ${index + 1}`}
             value={symptom}
             onChange={(e) => handleChange(e, index)}
             required
-          />
+          >
+            <option value="">Select a symptom</option>
+            {symptomArray.map((symptomOption, i) => (
+              <option key={i} value={symptomOption}>
+                {symptomOption.replace("_", " ")} {/* Format text */}
+              </option>
+            ))}
+          </select>
         ))}
 
+        {/*
         <label>Diagnostic Test Results</label>
         <input
           type="text"
@@ -77,7 +122,7 @@ const AddPatient: React.FC = () => {
           value={formData.testResults}
           onChange={handleChange}
           required
-        />
+        />  */}
 
         <button type="submit">Add Patient</button>
       </form>

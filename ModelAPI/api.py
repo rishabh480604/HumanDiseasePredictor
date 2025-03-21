@@ -51,7 +51,7 @@ disease=['Fungal infection','Allergy','GERD','Chronic cholestasis','Drug Reactio
 
 
 PINATA_URL = "https://api.pinata.cloud/pinning/pinJSONToIPFS"
-PINATA_JWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIzMTdkMDJmZi00MzI3LTQxOWMtYWUzMi1kYTJmYzBmMjQzZjciLCJlbWFpbCI6InJpc2hhYmgyMjM1NkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiYjY5MzYzOTRlNGExNTRhZDRmMmYiLCJzY29wZWRLZXlTZWNyZXQiOiJlMDY5ODQ2YTQ3YzY0YWNhY2NhZGZjOTVkYzRhZDkwNTQ0ZjYxZWY2MDdkMjI2MGNhZjdhZDJhZDUyMDk2ZjQyIiwiZXhwIjoxNzcwMjIwMzY5fQ.ayVJ4vnp11UBQTPHsuDGY1Bb8pP8Avg659Q3XgUjAQw'
+PINATA_JWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJmZWQwYWQ1Yi0zZjM0LTQ0MzMtODZiNC03NGUxNjA0MGEwOWIiLCJlbWFpbCI6InN3YWdhdHNhaHU4MDUwQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6IkZSQTEifSx7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6Ik5ZQzEifV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiIwMDRmMjJiOTU1ZTBiOGY2YTIxMiIsInNjb3BlZEtleVNlY3JldCI6IjJjNzhhN2JiY2RhMWI0NDMzNWU0ODM2ZWNmZDlkOTA2MDA1Mzg2ZGM4NThiNzJkMWM0YzBkZWFhMzk3ZDAzZmUiLCJleHAiOjE3NzI2MDcwNDh9.MMMA1acCnTc5ecCZy0PLhCCJ3LFQla3Zt5UZhdjWs20'
 l2=[]
 for x in range(0,len(l1)):
     l2.append(0)
@@ -227,10 +227,11 @@ async def searchPatient(patientId: str, request: Request):
             
             if(response):
                 patientDoc=response.json()
+                print("res : ",mongoResult)
                 return {'status':200,"message":"data fetched success",'patientData':patientDoc}
         else:
             return {"status": 400,"message":"could not fetch cid"}
-        # print("res : ",mongoResult)
+        
 
         return {"status":200,"patientData":"empty","message":"data fetch success"}
     

@@ -1,16 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../styles/AddPatient.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 const AddPatient: React.FC = () => {
   const [formData, setFormData] = useState({
     name: "",
     age: "",
     gender: "",
-    phoneNo:"",
-    symptoms: ["", "", "", "",""], 
-    // testResults: "",
+    phoneNo: "",
+    symptoms: ["", "", "", "", ""], 
   });
-  const symptomArray=['back_pain','constipation','abdominal_pain','diarrhoea','mild_fever','yellow_urine',
+  const [showModal, setShowModal] = useState(false);
+  const [patientId, setPatientId] = useState("");
+  const navigate = useNavigate();
+
+  const symptomArray = ['back_pain','constipation','abdominal_pain','diarrhoea','mild_fever','yellow_urine',
   'yellowing_of_eyes','acute_liver_failure','fluid_overload','swelling_of_stomach',
   'swelled_lymph_nodes','malaise','blurred_and_distorted_vision','phlegm','throat_irritation',
   'redness_of_eyes','sinus_pressure','runny_nose','congestion','chest_pain','weakness_in_limbs',
@@ -29,10 +34,10 @@ const AddPatient: React.FC = () => {
   'history_of_alcohol_consumption','fluid_overload','blood_in_sputum','prominent_veins_on_calf',
   'palpitations','painful_walking','pus_filled_pimples','blackheads','scurring','skin_peeling',
   'silver_like_dusting','small_dents_in_nails','inflammatory_nails','blister','red_sore_around_nose',
-  'yellow_crust_ooze']
+  'yellow_crust_ooze'];
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, index?: number) => {
     if (index !== undefined) {
-      // Update symptoms array based on index
       const updatedSymptoms = [...formData.symptoms];
       updatedSymptoms[index] = e.target.value;
       setFormData({ ...formData, symptoms: updatedSymptoms });
@@ -41,41 +46,34 @@ const AddPatient: React.FC = () => {
     }
   };
 
-  const handleSubmit = async(e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form Data Submitted:", formData);
-    const response= await axios.post('http://127.0.0.1:5000/addPatient',{...formData});
+    const response = await axios.post('http://127.0.0.1:5000/addPatient', { ...formData });
     
-    if(response.status==200){
-      console.log(response.data);
-      alert(`Patient Data with patient id : ${response.data.patientId}`);
-    }else{
-      alert("patient add error :"+response.data.message);
+    if (response.status === 200) {
+      setPatientId(response.data.patientId);
+      setShowModal(true);
+      setTimeout(() => {
+        navigate("/check-disease");
+      }, 10000);
+    } else {
+      alert("Patient add error: " + response.data.message);
     }
   };
 
   return (
     <div className="form-container">
       <h2>Add New Patient</h2>
-
       <form onSubmit={handleSubmit}>
         <label>Full Name</label>
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter full name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
+        <input type="text" name="name" placeholder="Enter full name" value={formData.name} onChange={handleChange} required />
 
         <label>Age</label>
         <select name="age" value={formData.age} onChange={handleChange} required>
           <option value="">Select Age</option>
           {Array.from({ length: 100 }, (_, i) => (
-            <option key={i} value={i + 1}>
-              {i + 1}
-            </option>
+            <option key={i} value={i + 1}>{i + 1}</option>
           ))}
         </select>
 
@@ -86,46 +84,30 @@ const AddPatient: React.FC = () => {
         </div>
 
         <label>Phone No</label>
-        <input
-          type="text"
-          name="phoneNo"
-          placeholder="Phone No"
-          value={formData.phoneNo}
-          onChange={handleChange}
-          required
-        />
+        <input type="text" name="phoneNo" placeholder="Phone No" value={formData.phoneNo} onChange={handleChange} required />
 
         <label>Symptoms</label>
         {formData.symptoms.map((symptom, index) => (
-          <select
-            key={index}
-            name={`symptom${index}`}
-            value={symptom}
-            onChange={(e) => handleChange(e, index)}
-            required
-          >
+          <select key={index} name={`symptom${index}`} value={symptom} onChange={(e) => handleChange(e, index)} required>
             <option value="">Select a symptom</option>
             {symptomArray.map((symptomOption, i) => (
-              <option key={i} value={symptomOption}>
-                {symptomOption.replace("_", " ")} {/* Format text */}
-              </option>
+              <option key={i} value={symptomOption}>{symptomOption.replace("_", " ")}</option>
             ))}
           </select>
         ))}
 
-        {/*
-        <label>Diagnostic Test Results</label>
-        <input
-          type="text"
-          name="testResults"
-          placeholder="Enter test results"
-          value={formData.testResults}
-          onChange={handleChange}
-          required
-        />  */}
-
         <button type="submit">Add Patient</button>
       </form>
+
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Patient Added Successfully!</h3>
+            <p>Patient ID: {patientId}</p>
+            <p>Redirecting to Check Disease page in 10 seconds...</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

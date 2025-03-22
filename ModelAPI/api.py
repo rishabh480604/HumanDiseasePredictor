@@ -69,7 +69,7 @@ class PatientData(BaseModel):
     symptoms: list[str]
 
 class PatientToCidMap(Document):
-    phoneNo = StringField(required=True)
+    phoneNo = StringField(required=True,unique=True)
     cid = StringField(required=True)
     
 
@@ -207,9 +207,10 @@ async def store_patient(patient: PatientData):
         if response.status_code != 200:
             raise HTTPException(status_code=500, detail=response_data)
 
-        mongoDocument=PatientToCidMap(phoneNo=patient.phoneNo)
-        mongoDocument.cid=response_data["IpfsHash"]
-        mongoDocument.save()
+        PatientToCidMap.objects(phoneNo=patient.phoneNo).update_one(set__cid=response_data["IpfsHash"], upsert=True)
+        # mongoDocument=PatientToCidMap(phoneNo=patient.phoneNo)
+        # mongoDocument.cid=response_data["IpfsHash"]
+        # mongoDocument.save()
         print("patientId : ",patient.phoneNo,"cid :  ",response_data["IpfsHash"])
         return {"cid": response_data["IpfsHash"],"patientId":patient.phoneNo ,"message": "Patient data stored successfully"}
         

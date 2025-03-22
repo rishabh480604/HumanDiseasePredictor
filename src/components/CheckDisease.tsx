@@ -21,7 +21,7 @@ const CheckDisease: React.FC = () => {
 
   async function handleSearch() {
     const response = await axios.get(`http://127.0.0.1:5000/searchPatient/${patientId}`);
-    if (response.status === 200) {
+    if (response.data.status === 200) {
       setShowMessage(true);
       setTimeout(() => {
         setShowMessage(false);
@@ -29,7 +29,7 @@ const CheckDisease: React.FC = () => {
         setHavePatient(true);
       }, 5000);
     } else {
-      alert(response.data.message);
+      alert(`${response.data.message}`);
     }
   }
 

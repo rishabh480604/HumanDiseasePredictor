@@ -238,7 +238,7 @@ async def searchPatient(patientId: str, request: Request):
 
         # return {"status":200,"patientData":"empty","message":"data fetch success"}
         # print("mapped url : ",f'https://harlequin-rational-snail-803.mypinata.cloud/ipfs/{mongoResult.cid}')
-        response= requests.get(f'https://harlequin-rational-snail-803.mypinata.cloud/ipfs/{mongoResult.cid}')
+        response= requests.get(f'https://harlequin-rational-snail-803.mypinata.cloud/ipfs/{mongoResult.cid}?pinataGatewayToken=06XF-jTL3ckKxEyWzrZENNkil6pUVgQ8bf0oPDTYzR-jj4fXZv3mNcJon0HQLS7U')
         print("reponse of data : ",response)
         
         if(response):

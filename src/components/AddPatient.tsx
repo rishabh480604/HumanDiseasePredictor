@@ -63,7 +63,7 @@ const AddPatient: React.FC = () => {
   };
 
   return (
-    <div className="form-container">
+    <div class="form-container">
       <h2>Add New Patient</h2>
       <form onSubmit={handleSubmit}>
         <label>Full Name</label>

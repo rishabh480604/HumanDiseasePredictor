@@ -9,6 +9,7 @@ const Body: React.FC = () => {
       <div className="btn-group">
         <Link to="/add-patient" className="btn">Add Patient</Link>
         <Link to="/check-disease" className="btn">Check Disease</Link>
+        <Link to="/check-disease" className="btn">Doctor Recommendation</Link>
       </div>
     </div>
   );

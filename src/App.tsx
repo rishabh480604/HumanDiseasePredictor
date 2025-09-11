@@ -5,9 +5,11 @@ import Footer from "./components/Footer";
 import AddPatient from "./components/AddPatient";
 import Body from "./components/Body";
 import CheckDisease from "./components/CheckDisease";
+import DoctorRecommend from "./components/DoctorRecommend";
 import "./index.css";
 
 const App: React.FC = () => {
+  
   return (
     <Router>
       <Navbar />
@@ -15,6 +17,7 @@ const App: React.FC = () => {
         <Route path="/" element={<Body />} />
         <Route path="/add-patient" element={<AddPatient />} />
         <Route path="/check-disease" element={<CheckDisease />} />
+        <Route path="/doctor-recommendation/:disease" element={<DoctorRecommend />} />
       </Routes>
       <Footer />
     </Router>

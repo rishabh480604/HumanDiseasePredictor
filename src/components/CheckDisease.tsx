@@ -83,12 +83,14 @@ const CheckDisease: React.FC = () => {
           <p><strong>Decision Tree Result:</strong> {patient.predicted[0]}</p>
           <p><strong>Random Forest Result:</strong> {patient.predicted[1]}</p>
           <p><strong>Naive Bayes Result:</strong> {patient.predicted[2]}</p>
+
+          <Link to={`/doctor-recommendation/${patient.predicted[0]}`}  className="add-btn">Recommend Doctor</Link>
         </div>
       </div>
 
       <div className="buttons">
         <Link to="/" className="back-btn">Back to Home</Link>
-        <Link to="/add-patient" className="add-btn">Add Another Patient</Link>
+        <Link to="/add-patient"  className="add-btn">Add Another Patient</Link>
       </div>
     </div>
   );

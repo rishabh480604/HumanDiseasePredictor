@@ -344,7 +344,7 @@ const staffRecord: Record<string, {
   }
 };
 
-const DoctorRecommend: React.FC<DoctorRecommendProps> = () => {
+const DoctorRecommend: React.FC = () => {
   const { disease } = useParams<{ disease: string }>();
 
   const record = disease ? staffRecord[disease] : undefined;

@@ -1,4 +1,6 @@
 import json
+import os
+from dotenv import load_dotenv
 from typing import Union
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -7,6 +9,7 @@ import joblib
 from pydantic import BaseModel
 import requests
 from mongoengine import Document, StringField, IntField, ListField, connect
+load_dotenv()
 app = FastAPI()
 # Allow all origins
 app.add_middleware(
@@ -51,7 +54,7 @@ disease=['Fungal infection','Allergy','GERD','Chronic cholestasis','Drug Reactio
 
 
 PINATA_URL = "https://api.pinata.cloud/pinning/pinJSONToIPFS"
-PINATA_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIzMTdkMDJmZi00MzI3LTQxOWMtYWUzMi1kYTJmYzBmMjQzZjciLCJlbWFpbCI6InJpc2hhYmgyMjM1NkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiMDIxNjgxODNjMzEzZTE5NzkwNTUiLCJzY29wZWRLZXlTZWNyZXQiOiI1ZmViMTFhNjBiNTYwMjMwZjk1ZDU3ODBiN2I0MzAyMWMzYTBhZGE4M2FlMGYwOTIwZWM4MGRlOGQxMWJkMTljIiwiZXhwIjoxNzc0MjA5NTUzfQ.90-x7mMTl9MboV2Hv2hn3pn-2SjW95HJvHLWD1VpAZo"
+PINATA_JWT = os.getenv("PINATA_API_KEY")
 l2=[]
 for x in range(0,len(l1)):
     l2.append(0)
@@ -77,7 +80,7 @@ connect(db="patients_db", host="mongodb://localhost:27017/patients_db")
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"Hello : World "}
 
 
 # @app.post("/d")

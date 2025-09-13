@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState,} from "react";
 import "../styles/AddPatient.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -63,7 +63,7 @@ const AddPatient: React.FC = () => {
   };
 
   return (
-    <div class="form-container">
+    <div className="form-container">
       <h2>Add New Patient</h2>
       <form onSubmit={handleSubmit}>
         <label>Full Name</label>

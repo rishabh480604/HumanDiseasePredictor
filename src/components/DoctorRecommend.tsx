@@ -1,9 +1,6 @@
 import React from "react";
 import './../styles/CheckDisease.css'
 import { Link, useParams } from "react-router-dom";
-interface DoctorRecommendProps {
-  disease: string;
-}
 
 // Doctor records mapped by disease
 const staffRecord: Record<string, {

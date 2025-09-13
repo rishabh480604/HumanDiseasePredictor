@@ -181,7 +181,7 @@ async def randomForestPredict(data:dict):
 @app.post("/addPatient")
 async def store_patient(patient: PatientData):
     
-    print("patient Data : ",patient)
+    # print("patient Data : ",patient)
     if not (patient.name and patient.phoneNo and patient.age and patient.gender and patient.symptoms):
         raise HTTPException(status_code=400, detail="Missing required patient details")
 
@@ -193,7 +193,7 @@ async def store_patient(patient: PatientData):
     decisionTreeResult= decisionTreePredict(inputVal)
     randomForestResult= await randomForestPredict(inputVal)
     naiveBayesResult=await naiveBayesPredict(inputVal)
-    print("decison : ",decisionTreeResult,"  random : ",randomForestResult," naive : ",naiveBayesResult)
+    # print("decison : ",decisionTreeResult,"  random : ",randomForestResult," naive : ",naiveBayesResult)
     updated_Patient=patient.dict()
     updated_Patient["predicted"]=[decisionTreeResult['predicted_disease'],randomForestResult['predicted_disease'],naiveBayesResult['predicted_disease']]
     
@@ -206,7 +206,7 @@ async def store_patient(patient: PatientData):
     try:
         response = requests.post(PINATA_URL, json=payload, headers=headers)
         response_data = response.json()
-        print("responseData : ",response_data)
+        # print("responseData : ",response_data)
 
         if response.status_code != 200:
             raise HTTPException(status_code=500, detail=response_data)
@@ -215,7 +215,7 @@ async def store_patient(patient: PatientData):
         # mongoDocument=PatientToCidMap(phoneNo=patient.phoneNo)
         # mongoDocument.cid=response_data["IpfsHash"]
         # mongoDocument.save()
-        print("patientId : ",patient.phoneNo,"cid :  ",response_data["IpfsHash"])
+        # print("patientId : ",patient.phoneNo,"cid :  ",response_data["IpfsHash"])
         return {"cid": response_data["IpfsHash"],"patientId":patient.phoneNo ,"message": "Patient data stored successfully"}
         
         

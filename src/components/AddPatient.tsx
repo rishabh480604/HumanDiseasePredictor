@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "../styles/AddPatient.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+const API_URL= import.meta.env.VITE_API_URL;
 const AddPatient: React.FC = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -49,7 +49,7 @@ const AddPatient: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form Data Submitted:", formData);
-    const response = await axios.post('http://127.0.0.1:5000/addPatient', { ...formData });
+    const response = await axios.post(`${API_URL}/addPatient`, { ...formData });
     
     if (response.status === 200) {
       setPatientId(response.data.patientId);

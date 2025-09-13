@@ -55,6 +55,7 @@ disease=['Fungal infection','Allergy','GERD','Chronic cholestasis','Drug Reactio
 
 PINATA_URL = "https://api.pinata.cloud/pinning/pinJSONToIPFS"
 PINATA_JWT = os.getenv("PINATA_API_KEY")
+pinataGatewayToken= os.getenv("PINATA_GATEWAY_TOKEN")
 l2=[]
 for x in range(0,len(l1)):
     l2.append(0)
@@ -75,8 +76,8 @@ class PatientToCidMap(Document):
     phoneNo = StringField(required=True,unique=True)
     cid = StringField(required=True)
     
-
-connect(db="patients_db", host="mongodb://localhost:27017/patients_db")
+MONGODB_PASS=os.getenv("MONGODB_PASSWORD")
+connect(db="HumanDiseasePredictDb", host=f"mongodb+srv://rishabh22356:{MONGODB_PASS}@cluster0.phyzpza.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 
 @app.get("/")
 def read_root():
@@ -241,7 +242,7 @@ async def searchPatient(patientId: str, request: Request):
 
         # return {"status":200,"patientData":"empty","message":"data fetch success"}
         # print("mapped url : ",f'https://harlequin-rational-snail-803.mypinata.cloud/ipfs/{mongoResult.cid}')
-        response= requests.get(f'https://harlequin-rational-snail-803.mypinata.cloud/ipfs/{mongoResult.cid}?pinataGatewayToken=06XF-jTL3ckKxEyWzrZENNkil6pUVgQ8bf0oPDTYzR-jj4fXZv3mNcJon0HQLS7U')
+        response= requests.get(f'https://harlequin-rational-snail-803.mypinata.cloud/ipfs/{mongoResult.cid}?pinataGatewayToken={pinataGatewayToken}')
         print("reponse of data : ",response)
         
         if(response):

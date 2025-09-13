@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/CheckDisease.css";
 import axios from "axios";
-
+const API_URL= import.meta.env.VITE_API_URL;
 const CheckDisease: React.FC = () => {
   const [patient, setPatient] = useState({
     name: "abcdef",
@@ -20,7 +20,7 @@ const CheckDisease: React.FC = () => {
   }
 
   async function handleSearch() {
-    const response = await axios.get(`http://127.0.0.1:5000/searchPatient/${patientId}`);
+    const response = await axios.get(`${API_URL}/searchPatient/${patientId}`);
     if (response.data.status === 200) {
       setShowMessage(true);
       setTimeout(() => {
